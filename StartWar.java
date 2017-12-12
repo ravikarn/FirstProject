@@ -22,10 +22,11 @@ class StartWar {
 	}
 	
 	
+	
 
-	static void startGame(int[][] playerA, int[][] playerB, int strengthOfPlayerA, int strengthOfPlayerB, Map<String, String> attackPlan) {
-		String[] playerAPlan=attackPlan.get("A").split(" ");
-		String[] playerBPlan=attackPlan.get("B").split(" ");
+	static void startGame(int[][] playerA, int[][] playerB, int strengthOfPlayerA, int strengthOfPlayerB, String aAttackPlan,String bAttackPlan) {
+		String[] playerAPlan=aAttackPlan.split(" ");
+		String[] playerBPlan=bAttackPlan.split(" ");
 
 		boolean trunOfA=true;
 
@@ -154,7 +155,10 @@ class StartWar {
 	
 		int column=0;
 		int row=0;
-		Map<String,String> attackPlan=new HashMap<>(); 
+		
+		String aAttackPlan=null;
+		String bAttackPlan=null;
+		
 
 		int[][] playerA = null;
 		int[][] playerB = null;
@@ -212,12 +216,13 @@ class StartWar {
 					}
 				}else {
 					if(flagOfA) {
-
-						attackPlan.put("A", line);
+						aAttackPlan=line;
+						
 
 						flagOfA=false;
 					}else {
-						attackPlan.put("B", line);
+						bAttackPlan=line;
+						
 						flagOfA=true;
 					}
 				}
@@ -226,7 +231,7 @@ class StartWar {
 		}
 
 
-		startGame(playerA,playerB,strengthOfPlayerA,strengthOfPlayerB,attackPlan);
+		startGame(playerA,playerB,strengthOfPlayerA,strengthOfPlayerB,aAttackPlan,bAttackPlan);
 
 	}
 	
