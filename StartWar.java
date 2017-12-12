@@ -17,56 +17,102 @@ class StartWar {
 
 		int playerACounter=0;
 		int playerBCounter=0;
+		int strikeLengthOfA=playerAPlan.length;
+		int strikeLengthOfB=playerBPlan.length;
+		boolean exhaustA=false;
+		boolean exhaustB=false;
+		boolean gameEnd=false;
 
-		while(strengthOfPlayerA>0 || strengthOfPlayerB>0) {
-			if(trunOfA) {
-				String attackPoint=playerAPlan[playerACounter];
-				String[] attackPointRowColumn=attackPoint.split("");
-				
-				int row=decodingMap.get(attackPointRowColumn[0]);
-				int column=(Integer.parseInt(attackPointRowColumn[1]))-1;
-				
-				int strikeValueForA=playerB[row][column];
-				
-				if(0==strikeValueForA) {
-					
-					trunOfA=false;
+		while(strengthOfPlayerA>0 && strengthOfPlayerB>0 && !gameEnd) {
+
+			if(!(exhaustA && exhaustB)) {
+
+
+
+				if(trunOfA) {
+
+					if(playerACounter<strikeLengthOfA) {
+
+
+
+
+						String attackPoint=playerAPlan[playerACounter];
+						String[] attackPointRowColumn=attackPoint.split("");
+
+						int row=(decodingMap.get(attackPointRowColumn[0]))-1;
+						int column=(Integer.parseInt(attackPointRowColumn[1]))-1;
+
+						int strikeValueForA=playerB[row][column];
+
+						if(0==strikeValueForA) {
+							System.out.println("Player-1 fires a missile with target "+attackPoint+" which got miss");
+
+							trunOfA=false;
+						}else {
+							playerB[row][column]--;
+							System.out.println("Player-1 fires a missile with target "+attackPoint+" which got hit");
+							strengthOfPlayerB--;
+							if(0==strengthOfPlayerB) {
+								System.out.println("Player-1 won the battle");
+							}
+							
+							trunOfA=true;
+						}
+
+
+
+						playerACounter++;
+
+					}else {
+						exhaustA=true;
+						trunOfA=false;
+						System.out.println("Player-1 has no missiles left to launch");
+					}
 				}else {
-					strengthOfPlayerB--;
-					trunOfA=true;
-				}
-				
-				
 
-				playerACounter++;
+
+					if(playerBCounter<strikeLengthOfB) {
+
+
+
+						String attackPoint=playerBPlan[playerBCounter];
+						String[] attackPointRowColumn=attackPoint.split("");
+
+						int row=(decodingMap.get(attackPointRowColumn[0]))-1;
+						int column=(Integer.parseInt(attackPointRowColumn[1]))-1;
+
+						int strikeValueForB=playerA[row][column];
+
+						if(0==strikeValueForB) {
+							System.out.println("Player-2 fires a missile with target "+attackPoint+" which got miss");
+
+							trunOfA=true;
+						}else {
+							playerA[row][column]--;
+							System.out.println("Player-2 fires a missile with target "+attackPoint+" which got hit");
+							strengthOfPlayerA--;
+							
+							if(0==strengthOfPlayerA) {
+								System.out.println("Player-2 won the battle");
+							}
+							
+							trunOfA=false;
+						}
+
+						playerBCounter++;
+					}else {
+						exhaustB=true;
+						trunOfA=true;
+						System.out.println("Player-2 has no missiles left to launch");
+					}
+
+
+				}
 			}else {
-				String attackPoint=playerBPlan[playerBCounter];
-				String[] attackPointRowColumn=attackPoint.split("");
-				
-				int row=decodingMap.get(attackPointRowColumn[0]);
-				int column=(Integer.parseInt(attackPointRowColumn[1]))-1;
-				
-				int strikeValueForB=playerA[row][column];
-				
-				if(0==strikeValueForB) {
-					
-					trunOfA=true;
-				}else {
-					strengthOfPlayerA--;
-					trunOfA=false;
-				}
-
-				playerBCounter++;
+				gameEnd=true;
 			}
 
-
-
-
 		}
-
-
-
-		System.out.println("Start Game Called");
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -83,14 +129,13 @@ class StartWar {
 
 
 
-		
+
 
 		for(int i=1;i<=26;i++) {
 			decodingMap.put(Character.toString((char)(i+64)), i);
 		}
 		int column=0;
 		int row=0;
-		int numberOfShips=0;
 		Map<String,String> attackPlan=new HashMap<>(); 
 
 		int[][] playerA = null;
@@ -120,7 +165,6 @@ class StartWar {
 
 					int costOfShip=("P".equalsIgnoreCase(typeOfShip))?1:2;
 
-					numberOfShips=((lengthOfInputArray)-3)/2;
 					columnDimensionOfShip=Integer.parseInt(inputArray[1]);
 					rowDimensionOfShip=Integer.parseInt(inputArray[2]);
 					boolean shipB=false;
