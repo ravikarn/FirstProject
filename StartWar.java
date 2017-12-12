@@ -8,6 +8,20 @@ import java.util.Scanner;
 
 class StartWar {
 	static Map<String,Integer> decodingMap=new HashMap<>();
+	
+	
+	
+	static void gamePlayPrinters(String player,String target,String hitOrMiss) {
+		System.out.println(player+" fires a missile with target "+target+" which got "+hitOrMiss);
+	}
+	
+	static void generateDecodingMap() {
+		for(int i=1;i<=26;i++) {
+			decodingMap.put(Character.toString((char)(i+64)), i);
+		}
+	}
+	
+	
 
 	static void startGame(int[][] playerA, int[][] playerB, int strengthOfPlayerA, int strengthOfPlayerB, Map<String, String> attackPlan) {
 		String[] playerAPlan=attackPlan.get("A").split(" ");
@@ -45,12 +59,14 @@ class StartWar {
 						int strikeValueForA=playerB[row][column];
 
 						if(0==strikeValueForA) {
-							System.out.println("Player-1 fires a missile with target "+attackPoint+" which got miss");
+							gamePlayPrinters("Player-1",attackPoint,"miss");
+							//System.out.println("Player-1 fires a missile with target "+attackPoint+" which got miss");
 
 							trunOfA=false;
 						}else {
 							playerB[row][column]--;
-							System.out.println("Player-1 fires a missile with target "+attackPoint+" which got hit");
+							gamePlayPrinters("Player-1",attackPoint,"hit");
+							//System.out.println("Player-1 fires a missile with target "+attackPoint+" which got hit");
 							strengthOfPlayerB--;
 							if(0==strengthOfPlayerB) {
 								System.out.println("Player-1 won the battle");
@@ -84,12 +100,14 @@ class StartWar {
 						int strikeValueForB=playerA[row][column];
 
 						if(0==strikeValueForB) {
-							System.out.println("Player-2 fires a missile with target "+attackPoint+" which got miss");
+							gamePlayPrinters("Player-2",attackPoint,"miss");
+							//System.out.println("Player-2 fires a missile with target "+attackPoint+" which got miss");
 
 							trunOfA=true;
 						}else {
 							playerA[row][column]--;
-							System.out.println("Player-2 fires a missile with target "+attackPoint+" which got hit");
+							gamePlayPrinters("Player-2",attackPoint,"hit");
+							//System.out.println("Player-2 fires a missile with target "+attackPoint+" which got hit");
 							strengthOfPlayerA--;
 							
 							if(0==strengthOfPlayerA) {
@@ -114,10 +132,12 @@ class StartWar {
 
 		}
 	}
+	
+	
+	
+	
+	static void processInput(String filePath) throws FileNotFoundException {
 
-	public static void main(String[] args) throws FileNotFoundException {
-
-		String filePath="input.txt";
 		File file = new File(filePath);
 		Scanner sc = new Scanner(file);
 		int input=0;
@@ -127,13 +147,11 @@ class StartWar {
 		int strengthOfPlayerA=0;
 		int strengthOfPlayerB=0;
 
+		generateDecodingMap();
 
 
 
-
-		for(int i=1;i<=26;i++) {
-			decodingMap.put(Character.toString((char)(i+64)), i);
-		}
+	
 		int column=0;
 		int row=0;
 		Map<String,String> attackPlan=new HashMap<>(); 
@@ -210,5 +228,22 @@ class StartWar {
 
 		startGame(playerA,playerB,strengthOfPlayerA,strengthOfPlayerB,attackPlan);
 
+	}
+	
+	
+	
+	
+	
+
+	public static void main(String[] args) throws FileNotFoundException {
+		
+		System.out.println("Enter the path of input file");
+		Scanner sc=new Scanner(System.in);
+		String filePath=sc.next();
+		
+		processInput(filePath);
+		
+		
+		
 	}
 }
