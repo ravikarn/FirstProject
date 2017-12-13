@@ -1,6 +1,29 @@
-5 E
-3
-Q 1 1 A1 B2 A2 B3
-P 2 1 D4 C3
-A1 B2 B2 B3
-A1 B2 B3 A1 D1 E1 D4 D4 D5 D5
+Instructions to Run-
+--------------------------------
+1.Provide a valid file path to the processInput method of StartWar.java class.
+2.File path should be a path of single input file instance of a single test case.
+
+Assumptions-
+------------------
+All the constraints given in problem statement is followed, as no verification is done in code for input.
+
+Test Cases-
+--------------------------
+Total five sample input files are taken for JUnit testing suit.
+We can assert our code by verifying the return from processInput method of StartWar.java class.
+There can be 3 possible outcome as "Player-1" ,"Player-2" or "DRAW". On basis of valid input file , we can assert the winner as the outcome of our class.
+
+Solution design-
+-------------------------------
+In solution four methods are there. Brief description is as follows-
+
+a). gamePlayPrinters-
+This method will print the logs during game play.
+
+b). generateDecodingMap-
+This method will create and fill a map having key value pair as A=1,B=2, ... so on. It will be used for decoding the target area for missiles.
+
+c). processInput-
+This method will take input from file and create a 2 dimensional array for both the players and pass the attack plan and 2-D array to startGame method.
+
+d). startGame-
